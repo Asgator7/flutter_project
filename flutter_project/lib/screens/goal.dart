@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class GoalWidget extends StatefulWidget {
-  const GoalWidget({Key? key}) : super(key: key);
+  const GoalWidget({key}) : super(key: key);
 
   @override
   State<GoalWidget> createState() => _GoalWidgetState();
@@ -64,9 +64,9 @@ class _GoalWidgetState extends State<GoalWidget> {
                             ),
                             checkColor: Colors.white,
                             value: goals[index].isChecked,
-                            onChanged: (bool? value) {
+                            onChanged: (bool value) {
                               setState(() {
-                                goals[index].isChecked = value!;
+                                goals[index].isChecked = value;
                               });
                             },
                           );
