@@ -201,9 +201,9 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                // if (_formKey.currentState.validate()) {
-                                //   Navigator.pushNamed(context, '/home');
-                                // }
+                                if (_formKey.currentState.validate()) {
+                                  Navigator.pushNamed(context, '/home');
+                                }
                               },
                               child: const Text(
                                 'Cadastrar',

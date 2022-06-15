@@ -100,12 +100,12 @@ class LoginWidgetState extends State<LoginWidget> {
                           ),
                           child: const Text('Entrar'),
                           onPressed: () {
-                            // if (_formKey.currentState.validate()) {
-                            //   Navigator.pushReplacementNamed(
-                            //     context,
-                            //     '/home',
-                            //   );
-                            // }
+                            if (_formKey.currentState.validate()) {
+                              Navigator.pushReplacementNamed(
+                                context,
+                                '/home',
+                              );
+                            }
                           },
                         ),
                       ),
@@ -126,6 +126,7 @@ class LoginWidgetState extends State<LoginWidget> {
                         ),
                         child: const Text('Cadastre-se'),
                         onPressed: () {
+                          Navigator.pushNamed(context, '/register');
                           // if (_formKey.currentState.validate()) {
                           //   Navigator.pushReplacementNamed(
                           //     context,

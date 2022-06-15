@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_project/screens/goal.dart';
 import 'package:flutter_project/screens/login.dart';
+import 'package:flutter_project/screens/register.dart';
 
 void main() async {
   await Firebase.initializeApp(
@@ -10,18 +12,16 @@ void main() async {
         messagingSenderId: "769322239350",
         projectId: "projeto-d9103"),
   );
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key key}) : super(key: key);
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Rotina de Exercicios',
-      home: LoginWidget(),
-    );
-  }
+  runApp(
+    MaterialApp(
+      title: 'Flutter Navigator 1',
+      initialRoute: '/',
+      debugShowCheckedModeBanner: false,
+      routes: {
+        '/': (context) => const LoginWidget(),
+        '/register': (context) => const RegisterWidget(),
+        '/home': (context) => const GoalWidget(),
+      },
+    ),
+  );
 }
