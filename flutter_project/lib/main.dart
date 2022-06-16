@@ -7,10 +7,10 @@ import 'package:flutter_project/screens/register.dart';
 void main() async {
   await Firebase.initializeApp(
     options: const FirebaseOptions(
-        apiKey: "AIzaSyCdTj_UgrUzoZfEqp5NEnwrtmGgowmPl00",
-        appId: "1:769322239350:web:df297b653e2c628daf2657",
-        messagingSenderId: "769322239350",
-        projectId: "projeto-d9103"),
+        apiKey: "AIzaSyDcZoXvzjx2pxHD42j5inBxAhZQk-JzKrM",
+        appId: "1:36685958177:web:af2cf85e32bc603f4de760",
+        messagingSenderId: "36685958177",
+        projectId: "projeto-beleza-900db"),
   );
   runApp(
     MaterialApp(

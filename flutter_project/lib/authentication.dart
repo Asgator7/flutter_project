@@ -46,9 +46,16 @@ class AuthenticationHelper {
       return getUID();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        return 'There is no user record corresponding to this identifier. The user may have been deleted.';
+        return {
+          'success': false,
+          'message':
+              'Não existe um usuário correspondente a este identificador. O usuário pode ter sido excluído.'
+        };
       } else if (e.code == 'wrong-password') {
-        return 'The password is invalid or the user does not have a password.';
+        return {
+          'sucess': false,
+          'message': 'Senha inválida ou usuário não possui senha.'
+        };
       }
       return e.message;
     }

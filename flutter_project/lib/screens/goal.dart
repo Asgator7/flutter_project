@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/screens/trains.dart';
 
 class GoalWidget extends StatefulWidget {
   const GoalWidget({key}) : super(key: key);
@@ -75,9 +76,12 @@ class _GoalWidgetState extends State<GoalWidget> {
                       ElevatedButton(
                         child: const Text('Cadastrar'),
                         onPressed: () {
-                          // if (_formKey.currentState.validate()) {
-                          //   Navigator.pop(context);
-                          // }
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const TrainsWidget(),
+                            ),
+                          );
                         },
                       ),
                     ],

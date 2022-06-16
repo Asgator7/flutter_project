@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_project/authentication.dart';
+import 'package:flutter_project/screens/goal.dart';
 
 class RegisterWidget extends StatefulWidget {
   const RegisterWidget({Key key}) : super(key: key);
@@ -9,6 +12,15 @@ class RegisterWidget extends StatefulWidget {
 
 class _RegisterWidgetState extends State<RegisterWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final CollectionReference _users =
+      FirebaseFirestore.instance.collection('users');
+
+  String email;
+  String password;
+  String altura;
+  String peso;
+  String idade;
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +86,9 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                             return 'Usuário inválido';
                           }
                         },
+                        onSaved: (val) {
+                          email = val;
+                        },
                       ),
                       TextFormField(
                         decoration: const InputDecoration(
@@ -98,6 +113,9 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                           if (value?.isEmpty == null) {
                             return 'Senha inválida';
                           }
+                        },
+                        onSaved: (val) {
+                          password = val;
                         },
                       ),
                       TextFormField(
@@ -124,6 +142,9 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                             return 'Altura inválida';
                           }
                         },
+                        onSaved: (val) {
+                          altura = val;
+                        },
                       ),
                       TextFormField(
                         decoration: const InputDecoration(
@@ -149,6 +170,9 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                             return 'Peso inválido';
                           }
                         },
+                        onSaved: (val) {
+                          peso = val;
+                        },
                       ),
                       TextFormField(
                         decoration: const InputDecoration(
@@ -173,6 +197,9 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                           if (value?.isEmpty == null) {
                             return 'Idade inválida';
                           }
+                        },
+                        onSaved: (val) {
+                          idade = val;
                         },
                       ),
                       const SizedBox(height: 20.0),
@@ -202,7 +229,34 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                             ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
-                                  Navigator.pushNamed(context, '/home');
+                                  _formKey.currentState.save();
+
+                                  AuthenticationHelper()
+                                      .signUp(email: email, password: password)
+                                      .then((result) {
+                                    if (result['success']) {
+                                      _users.add({
+                                        'email': email,
+                                        'password': password,
+                                        'altura': altura,
+                                        'peso': peso,
+                                        'idade': idade,
+                                      });
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const GoalWidget()));
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content: Text(
+                                          result['message'],
+                                          style: const TextStyle(fontSize: 16),
+                                        ),
+                                      ));
+                                    }
+                                  });
                                 }
                               },
                               child: const Text(

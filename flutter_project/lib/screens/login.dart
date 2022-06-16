@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/authentication.dart';
+import 'package:flutter_project/screens/goal.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({Key key}) : super(key: key);
@@ -9,6 +11,8 @@ class LoginWidget extends StatefulWidget {
 
 class LoginWidgetState extends State<LoginWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String email;
+  String password;
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +58,14 @@ class LoginWidgetState extends State<LoginWidget> {
                         style: const TextStyle(
                           color: Colors.white,
                         ),
-                        validator: (value) {
-                          if (value?.isEmpty == null) {
-                            return 'Usuário inválido';
+                        validator: (String value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Insira um email válido';
                           }
                           return null;
+                        },
+                        onSaved: (val) {
+                          email = val;
                         },
                       ),
                       TextFormField(
@@ -81,11 +88,16 @@ class LoginWidgetState extends State<LoginWidget> {
                           color: Colors.white,
                         ),
                         obscureText: true,
-                        validator: (value) {
-                          if (value?.isEmpty == null) {
+                        validator: (String value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.length < 6) {
                             return 'Senha inválida';
                           }
                           return null;
+                        },
+                        onSaved: (val) {
+                          password = val;
                         },
                       ),
                       Container(
@@ -101,10 +113,26 @@ class LoginWidgetState extends State<LoginWidget> {
                           child: const Text('Entrar'),
                           onPressed: () {
                             if (_formKey.currentState.validate()) {
-                              Navigator.pushReplacementNamed(
-                                context,
-                                '/home',
-                              );
+                              _formKey.currentState.save();
+                              AuthenticationHelper()
+                                  .signIn(email: email, password: password)
+                                  .then((result) {
+                                if (result['success']) {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const GoalWidget()));
+                                } else {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: Text(
+                                      result['message'],
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                  ));
+                                }
+                              });
                             }
                           },
                         ),
